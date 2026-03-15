@@ -5,7 +5,7 @@ import re
 import certifi
 
 app = Flask(__name__)
-API_KEY="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" # ← Pulls from Render's config
+API_KEY = os.environ.get("OPENROUTER_API_KEY", "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")
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 HEADERS = {
     "Authorization": f"Bearer {API_KEY}", 
@@ -96,4 +96,6 @@ def form():
     return render_template("form.html", suggestions=suggestions)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
+
